@@ -22,18 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-/* The specialized SVG Icon */
-L.Icon.AutoResizeSVG = L.Marker.extend({
-
-	options: {
-		iconSizeArray: [],
-		iconAnchorArray: []
-	}
-
-
-});
-
-
 /* The Auto adjusting marker [SVG Edition] */
 L.Marker.AutoResizeSVG = L.Marker.extend({
 
@@ -77,15 +65,6 @@ L.Marker.AutoResizeSVG = L.Marker.extend({
 		zoomed = Math.ceil((max - min) * (2/3) + min);
 		outer  = Math.ceil((max - min) * (1/3) + min);
 
-		/*
-		console.log("in _updateZoomend")
-		console.log("	zoom: " + zoom)
-		console.log("	min: " + min)
-		console.log("	max: " + max)
-		console.log("	zoomed: " + zoomed)
-		console.log("	outer: " + outer)
-		*/
-
 		if (zoom >= zoomed) {
 			this._initIconParam = 2;
 			this._initIcon(); 
@@ -109,23 +88,39 @@ L.Marker.AutoResizeSVG = L.Marker.extend({
 		// _iconArrayInitialized = ensures that the intialization is only performed once
 
 		// TODO:
-		// 1. Override setIcon(), set this._icon to null to trigger new creation of icon?????
+		// 1. Override setIcon() so user has ability to change?
 
 		var options = this.options
 		var classToAdd = 'leaflet-zoom-' + (this._zoomAnimated ? 'animated' : 'hide');
 
 		if(!this._iconArrayInitialized) {
 
-			// init to be able to use
+			// Init in order to be able to use
 			this._iconArray = [];
 			this._shadowArray = [];
 
 			// Create the icons and shadows
 			for (var i = 0; i < 3; i++) {
-				this.options.icon.options.iconSize = this.options.icon.options.iconSizeArray[i];
-				this.options.icon.options.iconAnchor = this.options.icon.options.iconAnchorArray[i];
+				// Make sure that Icon parameters are handled appropriately
+				if (options.icon.options.iconSizeArray) {
+					options.icon.options.iconSize = options.icon.options.iconSizeArray[i];
+				}
 
-					///add shadow stuff in, sizes, etc.
+				if (options.icon.options.iconAnchorArray) {
+					options.icon.options.iconAnchor = options.icon.options.iconAnchorArray[i];
+				}
+
+				if (options.icon.options.popupAnchorArray) {
+					options.icon.options.popupAnchor = options.icon.options.popupAnchorArray[i];
+				}
+
+				if (options.icon.options.shadowSizeArray) {
+					options.icon.options.shadowSize = options.icon.options.shadowSizeArray[i];
+				}
+
+				if (options.icon.options.shadowAnchorArray) {
+					options.icon.options.shadowAnchor = options.icon.options.shadowAnchorArray[i];
+				}
 
 				this._iconArray[i] = options.icon.createIcon();
 				this._shadowArray[i] = options.icon.createShadow();
