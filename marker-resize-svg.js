@@ -1,4 +1,4 @@
-/* L.Marker.AutoResize plugin */
+/* L.Marker.AutoResizeSVG plugin */
 
 /* The MIT License (MIT)
 
@@ -22,32 +22,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-/* The Auto adjusting marker */
-L.Marker.AutoResize = L.Marker.extend({
+/* The specialized SVG Icon */
+L.Icon.AutoResizeSVG = L.Marker.extend({
 
 	options: {
-		iconArray: [],
-		icon: null
-	},
+		iconSizeArray: [],
+		iconAnchorArray: []
+	}
+
+
+});
+
+
+/* The Auto adjusting marker [SVG Edition] */
+L.Marker.AutoResizeSVG = L.Marker.extend({
 
 	// Override initialize
 	initialize: function (latlng, options) {
 		L.setOptions(this, options);
 
 		var options = this.options;
-
-		// Did the user supply 3 icons?
-		if (options.iconArray.length !== 3) {
-			console.log("WARNING :: 3 icons not defined in L.Marker.AutoResize, an inefficient Marker will be produced.")
-			if (options.iconArray[0] instanceof L.Icon) {
-				options.iconArray[1] = options.iconArray[0];
-				options.iconArray[2] = options.iconArray[0];
-			} else {
-				options.iconArray = [new L.Icon.Default(),
-					 	     		 new L.Icon.Default(),
-						     		 new L.Icon.Default()];
-			}
-		}
 
 		// Set the default icon, mid-range zoom level
 		// Used by _initIcon override
@@ -128,8 +122,13 @@ L.Marker.AutoResize = L.Marker.extend({
 
 			// Create the icons and shadows
 			for (var i = 0; i < 3; i++) {
-				this._iconArray[i] = options.iconArray[i].createIcon();
-				this._shadowArray[i] = options.iconArray[i].createShadow();
+				this.options.icon.options.iconSize = this.options.icon.options.iconSizeArray[i];
+				this.options.icon.options.iconAnchor = this.options.icon.options.iconAnchorArray[i];
+
+					///add shadow stuff in, sizes, etc.
+
+				this._iconArray[i] = options.icon.createIcon();
+				this._shadowArray[i] = options.icon.createShadow();
 
 				// Give icons title/alt text if options call for them
 				if (options.title) {
@@ -235,6 +234,6 @@ L.Marker.AutoResize = L.Marker.extend({
 
 });
 
-L.autoResizeMarker = function(latlng, options) {
-	return new L.Marker.AutoResize(latlng, options);
+L.autoResizeMarkerSVG = function(latlng, options) {
+	return new L.Marker.AutoResizeSVG(latlng, options);
 };
