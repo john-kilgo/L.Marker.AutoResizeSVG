@@ -1,0 +1,54 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Leaflet Marker Resize: Example</title>
+  <meta name="description" content="Leaflet Marker Resize Plugin">
+  <meta name="author" content="The MITRE Corporation">
+
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
+  <script src="../marker-resize-svg.js"></script>
+
+  <style>
+  	#mapid { height: 450px; width: 800px; margin-left: auto; margin-right: auto; }
+  </style>
+
+</head>
+
+<body>
+	 <div id="mapid"></div>
+
+
+	  <script type="text/javascript">
+	  	var mymap = L.map('mapid').setView([42.491, -71.239], 12);
+
+		var icon = L.icon({
+			iconUrl: 'StatementFloodOutlineHaloed.svg',
+			iconSizeArray: 
+			[
+				[32, 32], [96, 96], [256, 256]
+			],
+			iconAnchorArray: 
+			[
+				[16, 32], [48, 96], [128, 256]
+			]
+		})
+
+		var marker = L.autoResizeMarkerSVG([42.486, -71.236], {icon: icon}).addTo(mymap);
+		  	
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamtpbGdvIiwiYSI6ImNpb29zZTNtbDAwMWF1cWtxMWg2Nm80enEifQ.GGjhjpGfyEqw04J_vwg03Q', {
+		    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		    maxZoom: 18,
+		    id: 'jkilgo.0830hkko',
+		    accessToken: 'pk.eyJ1IjoiamtpbGdvIiwiYSI6ImNpb29zZTNtbDAwMWF1cWtxMWg2Nm80enEifQ.GGjhjpGfyEqw04J_vwg03Q'
+		}).addTo(mymap);
+
+
+
+	  </script>
+
+</body>
+</html>
