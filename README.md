@@ -30,7 +30,6 @@ var myIcon = L.icon({
 		[16, 32], [48, 96], [128, 256]
 	]
 })
-
 ```
 
 Create a marker using this icon:
